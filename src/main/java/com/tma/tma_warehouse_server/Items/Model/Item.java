@@ -2,15 +2,13 @@ package com.tma.tma_warehouse_server.Items.Model;
 
 import jakarta.persistence.*;
 import jdk.jfr.DataAmount;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "items")
 @Data
 @NoArgsConstructor
+@Setter
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

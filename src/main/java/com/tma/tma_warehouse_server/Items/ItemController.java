@@ -43,6 +43,7 @@ public class ItemController {
 
         }
         if(newItem.getQuantity()<=0){
+            System.out.println(newItem.getQuantity());
             status = HttpStatus.BAD_REQUEST;
             responseBody.append("Quantity cannot be empty\n");
 
@@ -61,10 +62,18 @@ public class ItemController {
         return ResponseEntity.status(status).body(responseBody.toString());
     }
 
-    @DeleteMapping()
-    public ResponseEntity<?> removeItem(@RequestParam Long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> removeItem(@PathVariable Long id){
+        System.out.println(id);
+        if (id == null) {
+            return ResponseEntity.badRequest().body("No item IDs provided");
+        }
+
+        System.out.println("size: " + id);
+
         itemRepository.deleteById(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
+
 }
