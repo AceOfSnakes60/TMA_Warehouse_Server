@@ -1,5 +1,6 @@
 package com.tma.tma_warehouse_server.Orders;
 
+import com.tma.tma_warehouse_server.Enums.StatusEnum;
 import com.tma.tma_warehouse_server.Items.ItemRepository;
 import com.tma.tma_warehouse_server.Items.Model.Item;
 import com.tma.tma_warehouse_server.Orders.Model.Order;
@@ -60,6 +61,7 @@ public class OrdersController {
         }
 
         if(status.is2xxSuccessful()){
+            newOrder.setStatus(StatusEnum.NEW);
             orderRepository.save(newOrder);
         }
 
@@ -75,7 +77,7 @@ public class OrdersController {
         return ResponseEntity.noContent().build();
 
     }
-    @PatchMapping("/confirm/{id}")
+    @PostMapping("/accept")
     public ResponseEntity<?> confirmOrder(@RequestBody Order order){
 
         Optional<Item> foundItem = itemRepository.findById(order.getItemId());
@@ -90,8 +92,18 @@ public class OrdersController {
 
         toConfirmItem.setQuantity(toConfirmItem.getQuantity() - order.getQuantity());
         itemRepository.save(toConfirmItem);
-        //order.setStatus()  Not declared status in Order!!!
+        order.setStatus(StatusEnum.APPROVED);
         orderRepository.save(order);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/reject")
+    public ResponseEntity<?> rejectOrder(@RequestBody Order order){
+        order.setStatus(StatusEnum.REJECTED);
+
+        orderRepository.save(order);
+
+        return ResponseEntity.ok().build();
+    }
+
 }

@@ -76,4 +76,16 @@ public class ItemController {
         return ResponseEntity.ok().build();
     }
 
+    @PatchMapping()
+    public ResponseEntity<?> patchItem(@RequestBody Item updatedItem){
+        if(updatedItem.getId()==null){
+            return ResponseEntity.badRequest().body("No item id provided");
+        }
+        if(itemRepository.findById(updatedItem.getId()).isEmpty()){
+            return ResponseEntity.badRequest().body("Item not found");
+        }
+        itemRepository.save(updatedItem);
+        return ResponseEntity.ok().build();
+    }
+
 }

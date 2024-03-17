@@ -1,5 +1,6 @@
 package com.tma.tma_warehouse_server.Orders.Model;
 
+import com.tma.tma_warehouse_server.Enums.StatusEnum;
 import com.tma.tma_warehouse_server.Items.Model.UnitEnum;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
@@ -22,6 +23,6 @@ public class Order {
     private int quantity;               //Required
     private int priceUAH;               //Required
     private String comment;
-    // Enum Status
+    private StatusEnum status;
     // Request row ID
 }
